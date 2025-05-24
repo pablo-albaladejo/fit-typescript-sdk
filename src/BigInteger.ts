@@ -7,7 +7,8 @@ export default class BigInteger {
     } else if (Array.isArray(value) || value instanceof Uint8Array) {
       this.value = BigInteger.fromBytes(Array.from(value));
     } else {
-      this.value = BigInt(value as any);
+      // value is guaranteed to be either a string, number or bigint here
+      this.value = BigInt(value as string | number | bigint);
     }
   }
 

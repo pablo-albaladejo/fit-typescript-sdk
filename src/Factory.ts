@@ -131,8 +131,6 @@ class Factory {
         return new VideoDescriptionMesg(mesg);
       case MesgNum.VIDEO_CLIP:
         return new VideoClipMesg(mesg);
-      case MesgNum.OHR_SETTINGS:
-        return new OhrSettingsMesg(mesg);
       case MesgNum.EXD_SCREEN_CONFIGURATION:
         return new ExdScreenConfigurationMesg(mesg);
       case MesgNum.EXD_DATA_FIELD_CONFIGURATION:
@@ -174,7 +172,7 @@ class Factory {
   static createField(
     mesgNameOrNum: string | number,
     fieldNameOrNum: string | number,
-    values?: any[]
+    values?: unknown[]
   ): Field {
     let mesgNum: number;
     let fieldName: string;
