@@ -6,6 +6,8 @@ import OutputStream from './OutputStream';
 import DataInputStream from './DataInputStream';
 import DataOutputStream from './DataOutputStream';
 import OutputStreamWriter from './OutputStreamWriter';
+import BigInteger from "./BigInteger";
+import BigDecimal from "./BigDecimal";
 
 abstract class FieldBase {
   protected values: Array<any>;
