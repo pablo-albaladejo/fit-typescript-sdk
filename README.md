@@ -6,9 +6,9 @@ This project aims to provide a TypeScript implementation of the [Garmin FIT prot
 
 - [x] Basic utilities (`CRC16`, `Fit`, `ProtocolVersion`)
 - [x] Basic `FileEncoder` skeleton
-- [ ] `FileDecoder` implementation
+- [x] `FileDecoder` implementation
 - [x] Streaming classes (`InputStream`, `OutputStream`, `DataInputStream`, `DataOutputStream`, `OutputStreamWriter`)
-- [ ] Numeric helpers (`BigInteger`, `BigDecimal`)
+- [x] Numeric helpers (`BigInteger`, `BigDecimal`)
 - [ ] Field helpers (`FieldComponent`, `DeveloperField`, `DeveloperFieldDefinition`, `DeveloperDataIdMesg`)
 - [ ] Complete message class implementations (see list below)
 - [ ] Tests for each component
@@ -20,9 +20,9 @@ The repository currently lacks many classes required by the FIT specification. B
 
 ### Core Helpers
 
-- `FileDecoder`
-- `BigInteger`
-- `BigDecimal`
+- `FileDecoder` (implemented)
+- `BigInteger` (implemented)
+- `BigDecimal` (implemented)
 - `FieldComponent`
 - `DeveloperField`
 - `DeveloperDataIdMesg`
@@ -145,11 +145,11 @@ Each item below describes a self-contained Codex task. When all boxes are checke
 1. **Stream Abstractions**
    - [x] Implement `InputStream` and `OutputStream` wrappers using Node streams.
    - [x] Implement `DataInputStream`, `DataOutputStream` and `OutputStreamWriter` helpers.
-   - [ ] Integrate `BigInteger` and `BigDecimal` utilities for large numeric values.
+   - [x] Integrate `BigInteger` and `BigDecimal` utilities for large numeric values
 2. **File Handling**
    - [x] Write basic `FileEncoder` (already present).
-   - [ ] Finish `FileEncoder` (record CRC during writes, manage message definitions).
-   - [ ] Create `FileDecoder` able to parse FIT headers and message records.
+   - [x] Finish `FileEncoder` (record CRC during writes, manage message definitions).
+   - [x] Create `FileDecoder` able to parse FIT headers and message records.
 3. **Field and Message Structure**
    - [x] Base `Field`, `SubField` and definition classes.
    - [ ] Add `FieldComponent` logic.
@@ -182,6 +182,9 @@ graph TD
   FieldBase --> DataOutputStream
   FieldBase --> DataInputStream
   DataInputStream --> InputStream
+  FileDecoder --> InputStream
+  FieldBase --> BigInteger
+  FieldBase --> BigDecimal
   OutputStream -->|wraps| Writable
   InputStream -->|wraps| Readable
   Factory --> Mesg

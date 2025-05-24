@@ -13,6 +13,8 @@ import ProtocolVersion from './ProtocolVersion';
 export class FileEncoder implements MesgListener, MesgDefinitionListener {
   private file: fs.PathLike;
   private out: fs.WriteStream;
+  private rawWrite: any;
+  private crcOut: any;
   private crc16: CRC16;
   private lastMesgDefinition: MesgDefinition[] = new Array(Fit.MAX_LOCAL_MESGS);
   private version: ProtocolVersion;
@@ -32,6 +34,12 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
     this.writeFileHeader();
     try {
       this.out = fs.createWriteStream(this.file, { flags: 'a' });
+      this.rawWrite = this.out.write.bind(this.out);
+      this.crcOut = { write: (chunk: any) => {
+        const buf = typeof chunk === "number" ? Buffer.from([chunk]) : Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+        this.crc16.update(buf, 0, buf.length);
+        this.rawWrite(buf);
+      } };
       this.out.on('error', (err) => {
         throw new FitRuntimeException(err);
       });
@@ -105,7 +113,7 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
       throw new FitRuntimeException('Incompatible Protocol Features');
     }
 
-    mesgDefinition.write(this.out);
+    mesgDefinition.write(this.crcOut);
     this.lastMesgDefinition[mesgDefinition.localNum] = mesgDefinition;
   }
 
@@ -127,7 +135,7 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
       this.writeMesgDefinition(new MesgDefinition(mesg));
     }
 
-    mesg.write(this.out, this.lastMesgDefinition[localNum]);
+    mesg.write(this.crcOut, this.lastMesgDefinition[localNum]);
   }
 
   writeMesgArr(mesgs: Mesg[]): void {
@@ -146,7 +154,7 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
 
       const crc = this.crc16.getValue();
       const crcBuffer = Buffer.from([crc & 0xff, (crc >> 8) & 0xff]);
-      this.out.write(crcBuffer);
+      fs.appendFileSync(this.file, crcBuffer);
 
       this.out.close();
     } catch (e) {
