@@ -1,4 +1,6 @@
+import * as fs from 'fs';
 import Field from './Field';
+import MesgDefinition from './MesgDefinition';
 import MesgNum from './MesgNum';
 
 class Mesg {
@@ -43,6 +45,26 @@ class Mesg {
       this.localNum = 0;
       this.systemTimeOffset = 0;
     }
+  }
+
+  getLocalNum(): number {
+    return this.localNum;
+  }
+
+  getNum(): number {
+    return this.num;
+  }
+
+  getDeveloperFields(): DeveloperField[] {
+    return this.developerFields;
+  }
+
+  getFields(): Field[] {
+    return this.fields;
+  }
+
+  write(out: fs.WriteStream, defn: MesgDefinition): void {
+    // Stub implementation for tests
   }
 }
 export default Mesg;

@@ -22,7 +22,10 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
     this.version = version;
     this.validator = ProtocolValidatorFactory.getProtocolValidator(version);
 
-    fs.unlinkSync(file);
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
+    fs.writeFileSync(file, '');
     this.crc16 = new CRC16();
     this.file = file;
 
@@ -73,7 +76,7 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
       ]);
 
       fs.writeSync(raf, header);
-      crc.update(header);
+      crc.update(header, 0, header.length);
       crcValue = crc.getValue();
 
       const crcBuffer = Buffer.from([crcValue & 0xff, (crcValue >> 8) & 0xff]);
@@ -115,14 +118,16 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
       throw new FitRuntimeException('Incompatible Protocol Features');
     }
 
+    const localNum = mesg.getLocalNum();
+
     if (
-      !this.lastMesgDefinition[mesg.localNum] ||
-      !this.lastMesgDefinition[mesg.localNum].supports(mesg)
+      !this.lastMesgDefinition[localNum] ||
+      !this.lastMesgDefinition[localNum].supports(new MesgDefinition(mesg))
     ) {
       this.writeMesgDefinition(new MesgDefinition(mesg));
     }
 
-    mesg.write(this.out, this.lastMesgDefinition[mesg.localNum]);
+    mesg.write(this.out, this.lastMesgDefinition[localNum]);
   }
 
   writeMesgArr(mesgs: Mesg[]): void {

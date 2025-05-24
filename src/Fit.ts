@@ -139,9 +139,9 @@ class Fit {
   public static readonly UINT64_INVALID = BigInt('0xFFFFFFFFFFFFFFFF');
   public static readonly BASE_TYPE_UINT64 = 0x8f;
 
-  public static readonly UINT64Z_MAX = BigInt('FFFFFFFFFFFFFFFF');
-  public static readonly UINT64Z_MIN = BigInt('0000000000000000');
-  public static readonly UINT64Z_INVALID = BigInt('0000000000000000');
+  public static readonly UINT64Z_MAX = BigInt('0xFFFFFFFFFFFFFFFF');
+  public static readonly UINT64Z_MIN = BigInt('0x0000000000000000');
+  public static readonly UINT64Z_INVALID = BigInt('0x0000000000000000');
   public static readonly BASE_TYPE_UINT64Z = 0x90;
   public static readonly BASE_TYPES = 17;
 
