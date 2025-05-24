@@ -10,11 +10,11 @@ import BigInteger from "./BigInteger";
 import BigDecimal from "./BigDecimal";
 
 abstract class FieldBase {
-  protected values: Array<any>;
+  protected values: Array<unknown>;
   static forceShowInvalids: boolean = !Fit.ENABLE_LEGACY_BEHAVIOUR;
 
   constructor(other?: FieldBase) {
-    this.values = new Array<any>();
+    this.values = new Array<unknown>();
     if (other !== undefined) {
       for (const value of other.values) {
         this.values.push(value);
@@ -108,7 +108,9 @@ abstract class FieldBase {
         for (const value of values) {
           try {
             size += value.toString().getBytes('UTF-8').length + 1;
-          } catch (ignored) {}
+          } catch (ignored) {
+            // ignore encoding errors when calculating size
+          }
         }
         break;
 
@@ -119,7 +121,7 @@ abstract class FieldBase {
     return size;
   }
 
-  public addRawValue(rawValue: any): void {
+  public addRawValue(rawValue: unknown): void {
     if (rawValue === null) {
       values.add(null);
     } else if (typeof rawValue === 'number') {
@@ -129,32 +131,32 @@ abstract class FieldBase {
         case Fit.BASE_TYPE_UINT8Z:
         case Fit.BASE_TYPE_SINT16:
         case Fit.BASE_TYPE_BYTE:
-          values.add(Math.round(rawValue));
+          values.add(Math.round(rawValue as number));
           break;
 
         case Fit.BASE_TYPE_SINT8:
-          values.add(Math.round(rawValue));
+          values.add(Math.round(rawValue as number));
           break;
 
         case Fit.BASE_TYPE_UINT16:
         case Fit.BASE_TYPE_UINT16Z:
         case Fit.BASE_TYPE_SINT32:
-          values.add(Math.round(rawValue));
+          values.add(Math.round(rawValue as number));
           break;
 
         case Fit.BASE_TYPE_UINT32:
         case Fit.BASE_TYPE_UINT32Z:
-          values.add(Math.round(rawValue));
+          values.add(Math.round(rawValue as number));
           break;
 
         case Fit.BASE_TYPE_FLOAT32:
-          values.add(rawValue);
+          values.add(rawValue as number);
           break;
         case Fit.BASE_TYPE_FLOAT64:
-          values.add(rawValue);
+          values.add(rawValue as number);
           break;
         case Fit.BASE_TYPE_STRING:
-          values.add(rawValue.toString());
+          values.add((rawValue as number).toString());
           break;
         default:
           break;
@@ -192,7 +194,7 @@ abstract class FieldBase {
           values.add(Fit.UINT32Z_INVALID);
           break;
         case Fit.BASE_TYPE_STRING:
-          values.add(rawValue);
+          values.add(rawValue as string);
           break;
         case Fit.BASE_TYPE_FLOAT32:
           values.add(Fit.FLOAT32_INVALID);
@@ -207,7 +209,7 @@ abstract class FieldBase {
           break;
       }
     } else {
-      values.add(rawValue);
+      values.add(rawValue as unknown);
     }
   }
 
@@ -314,22 +316,22 @@ abstract class FieldBase {
     return value;
   }
 
-  public getRawValue(): any {
+  public getRawValue(): unknown {
     return this.getRawValueInternal(0, null);
   }
 
-  public getRawValue(fieldArrayIndex: number): any {
+  public getRawValue(fieldArrayIndex: number): unknown {
     return this.getRawValueInternal(fieldArrayIndex, null);
   }
 
-  public getRawValue(fieldArrayIndex: number, subFieldIndex: number): any {
+  public getRawValue(fieldArrayIndex: number, subFieldIndex: number): unknown {
     return this.getRawValueInternal(
       fieldArrayIndex,
       this.getSubField(subFieldIndex)
     );
   }
 
-  public getRawValue(fieldArrayIndex: number, subFieldName: string): any {
+  public getRawValue(fieldArrayIndex: number, subFieldName: string): unknown {
     return this.getRawValueInternal(
       fieldArrayIndex,
       this.getSubField(subFieldName)
@@ -338,34 +340,32 @@ abstract class FieldBase {
 
   protected getRawValueInternal(
     fieldArrayIndex: number,
-    subField: SubField | null
-  ): any {
-    let value;
-
+    _subField: SubField | null
+  ): unknown {
     if (fieldArrayIndex >= values.size()) {
       return null;
     }
 
-    value = values.get(fieldArrayIndex);
+    const value: unknown = values.get(fieldArrayIndex);
     return value;
   }
 
-  public getValue(): any {
+  public getValue(): unknown {
     return this.getValueInternal(0, null);
   }
 
-  public getValue(fieldArrayIndex: number): any {
+  public getValue(fieldArrayIndex: number): unknown {
     return this.getValueInternal(fieldArrayIndex, null);
   }
 
-  public getValue(fieldArrayIndex: number, subFieldIndex: number): any {
+  public getValue(fieldArrayIndex: number, subFieldIndex: number): unknown {
     return this.getValueInternal(
       fieldArrayIndex,
       this.getSubField(subFieldIndex)
     );
   }
 
-  public getValue(fieldArrayIndex: number, subFieldName: string): any {
+  public getValue(fieldArrayIndex: number, subFieldName: string): unknown {
     return this.getValueInternal(
       fieldArrayIndex,
       this.getSubField(subFieldName)
@@ -374,8 +374,7 @@ abstract class FieldBase {
   protected getValueInternal(
     fieldArrayIndex: number,
     subField: SubField | null
-  ): any {
-    let value: any;
+  ): unknown {
     let scale: number;
     let offset: number;
 
@@ -392,7 +391,7 @@ abstract class FieldBase {
     }
 
     const type = this.getTypeInternal(subField);
-    value = values[fieldArrayIndex];
+    const value = values[fieldArrayIndex];
 
     if (typeof value === 'number') {
       if (Fit.baseTypeInvalidMap.get(type) === value) {
