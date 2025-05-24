@@ -1,4 +1,4 @@
-import FileEncoder from '../FileEncoder';
+import { FileEncoder } from '../FileEncoder';
 import ProtocolVersion from '../ProtocolVersion';
 
 test('WeightScale', () => {
