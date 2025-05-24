@@ -177,6 +177,8 @@ graph TD
   DataInputStream --> InputStream
   OutputStream -->|wraps| Writable
   InputStream -->|wraps| Readable
+  Factory --> Mesg
+  Mesg -->|extends| "Message Types"
 ```
 
 ## How to Contribute
