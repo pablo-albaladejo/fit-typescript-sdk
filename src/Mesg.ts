@@ -10,7 +10,7 @@ class Mesg {
   protected fields: Field[];
   protected developerFields: DeveloperField[];
   protected systemTimeOffset: number;
-  private decoderMesgIndex: number;
+  private decoderMesgIndex: number = 0;
 
   constructor(nameOrMesg?: string | Mesg, num?: number) {
     this.fields = [];
