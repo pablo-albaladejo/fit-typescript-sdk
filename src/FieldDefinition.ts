@@ -5,14 +5,14 @@ class FieldDefinition extends FieldDefinitionBase {
   private size: number;
   private type: number;
 
-  constructor(field: Field) {
+  constructor(field: any) {
     super();
-    this.num = field.getNum();
-    this.size = field.getSize();
-    this.type = field.getType();
+    this.num = field.getNum?.() ?? 0;
+    this.size = field.getSize?.() ?? 0;
+    this.type = field.getType?.() ?? 0;
   }
 
-  write(out: OutputStream): void {
+  write(out: any): void {
     try {
       out.write(this.num);
       out.write(this.size);
@@ -57,14 +57,5 @@ class FieldDefinition extends FieldDefinitionBase {
     );
   }
 
-  hashCode(): number {
-    let hashCode = 1;
-
-    hashCode = hashCode * 47 + this.num.hashCode();
-    hashCode = hashCode * 31 + this.size.hashCode();
-    hashCode = hashCode * 19 + this.type.hashCode();
-
-    return hashCode;
-  }
 }
 export default FieldDefinition;

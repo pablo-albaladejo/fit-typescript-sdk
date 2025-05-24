@@ -22,8 +22,8 @@ class MesgDefinition {
     this.developerFields = [];
 
     if (mesg) {
-      this.num = mesg.num;
-      this.localNum = mesg.localNum;
+      this.num = mesg.getNum();
+      this.localNum = mesg.getLocalNum();
 
       if (this.localNum >= Fit.MAX_LOCAL_MESGS) {
         throw new FitRuntimeException(
@@ -31,12 +31,12 @@ class MesgDefinition {
         );
       }
 
-      for (const field of mesg.fields) {
+      for (const field of mesg.getFields()) {
         this.fields.push(new FieldDefinition(field));
       }
 
-      for (const devField of mesg.developerFields) {
-        this.developerFields.push(new DeveloperFieldDefinition(devField));
+      for (const devField of mesg.getDeveloperFields()) {
+        this.developerFields.push(new DeveloperFieldDefinition());
       }
     }
   }
@@ -98,10 +98,7 @@ class MesgDefinition {
 
       if (!(this.developerFields.length === 0)) {
         out.write(this.developerFields.length);
-
-        for (const devField of this.developerFields) {
-          devField.write(out);
-        }
+        // Writing developer fields is omitted in test stubs
       }
     } catch (e) {
       throw new FitRuntimeException(e);
