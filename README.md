@@ -20,9 +20,9 @@ The repository currently lacks many classes required by the FIT specification. B
 
 ### Core Helpers
 
-- `FileDecoder` (implemented)
-- `BigInteger` (implemented)
-- `BigDecimal` (implemented)
+- [`FileDecoder`](src/FileDecoder.ts) (implemented)
+- [`BigInteger`](src/BigInteger.ts) (implemented)
+- [`BigDecimal`](src/BigDecimal.ts) (implemented)
 - `FieldComponent`
 - `DeveloperField`
 - `DeveloperDataIdMesg`
