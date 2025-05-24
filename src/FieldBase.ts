@@ -1,6 +1,11 @@
 import FieldDefinitionBase from './FieldDefinitionBase';
 import Fit from './Fit';
 import SubField from './SubField';
+import InputStream from './InputStream';
+import OutputStream from './OutputStream';
+import DataInputStream from './DataInputStream';
+import DataOutputStream from './DataOutputStream';
+import OutputStreamWriter from './OutputStreamWriter';
 
 abstract class FieldBase {
   protected values: Array<any>;

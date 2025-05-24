@@ -6,7 +6,7 @@ This project aims to provide a TypeScript implementation of the [Garmin FIT prot
 - [x] Basic utilities (`CRC16`, `Fit`, `ProtocolVersion`)
 - [x] Basic `FileEncoder` skeleton
 - [ ] `FileDecoder` implementation
-- [ ] Streaming classes (`InputStream`, `OutputStream`, `DataInputStream`, `DataOutputStream`, `OutputStreamWriter`)
+- [x] Streaming classes (`InputStream`, `OutputStream`, `DataInputStream`, `DataOutputStream`, `OutputStreamWriter`)
 - [ ] Numeric helpers (`BigInteger`, `BigDecimal`)
 - [ ] Field helpers (`FieldComponent`, `DeveloperField`, `DeveloperFieldDefinition`, `DeveloperDataIdMesg`)
 - [ ] Complete message class implementations (see list below)
@@ -18,11 +18,6 @@ The repository currently lacks many classes required by the FIT specification. B
 
 ### Core Helpers
 - `FileDecoder`
-- `InputStream`
-- `OutputStream`
-- `DataInputStream`
-- `DataOutputStream`
-- `OutputStreamWriter`
 - `BigInteger`
 - `BigDecimal`
 - `FieldComponent`
@@ -142,8 +137,8 @@ The following FIT messages require dedicated classes. None of them are present i
 Each item below describes a self-contained Codex task. When all boxes are checked, the SDK can be published to npm.
 
 1. **Stream Abstractions**
-   - [ ] Implement `InputStream` and `OutputStream` wrappers using Node streams.
-   - [ ] Implement `DataInputStream`, `DataOutputStream` and `OutputStreamWriter` helpers.
+   - [x] Implement `InputStream` and `OutputStream` wrappers using Node streams.
+   - [x] Implement `DataInputStream`, `DataOutputStream` and `OutputStreamWriter` helpers.
    - [ ] Integrate `BigInteger` and `BigDecimal` utilities for large numeric values.
 2. **File Handling**
    - [x] Write basic `FileEncoder` (already present).
@@ -168,7 +163,21 @@ Each item below describes a self-contained Codex task. When all boxes are checke
    - [ ] Enforce linting and code formatting.
 8. **Packaging**
    - [ ] Generate `dist/` with compiled JavaScript and type declarations.
-   - [ ] Publish the package to npm with semantic versioning.
+ - [ ] Publish the package to npm with semantic versioning.
+
+## Architecture Overview
+
+```mermaid
+graph TD
+  FileEncoder --> OutputStream
+  DataOutputStream --> OutputStream
+  OutputStreamWriter --> OutputStream
+  FieldBase --> DataOutputStream
+  FieldBase --> DataInputStream
+  DataInputStream --> InputStream
+  OutputStream -->|wraps| Writable
+  InputStream -->|wraps| Readable
+```
 
 ## How to Contribute
 Contributions are welcome. Each unchecked item in the roadmap can be tackled as a standalone pull request. Please include unit tests for new functionality and keep code style consistent with the existing files.
