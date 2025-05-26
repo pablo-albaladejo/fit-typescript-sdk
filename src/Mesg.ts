@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import Field from './Field';
+import DeveloperField from './DeveloperField';
 import MesgDefinition from './MesgDefinition';
 import MesgNum from './MesgNum';
 

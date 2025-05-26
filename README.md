@@ -9,7 +9,7 @@ This project aims to provide a TypeScript implementation of the [Garmin FIT prot
 - [x] `FileDecoder` implementation
 - [x] Streaming classes (`InputStream`, `OutputStream`, `DataInputStream`, `DataOutputStream`, `OutputStreamWriter`)
 - [x] Numeric helpers (`BigInteger`, `BigDecimal`)
-- [ ] Field helpers (`FieldComponent`, `DeveloperField`, `DeveloperFieldDefinition`, `DeveloperDataIdMesg`)
+- [x] Field helpers (`FieldComponent`, `DeveloperField`, `DeveloperFieldDefinition`, `DeveloperDataIdMesg`)
 - [ ] Complete message class implementations (see list below)
 - [ ] Tests for each component
 - [ ] Continuous integration & npm packaging
@@ -23,9 +23,9 @@ The repository currently lacks many classes required by the FIT specification. B
 - [`FileDecoder`](src/FileDecoder.ts) (implemented)
 - [`BigInteger`](src/BigInteger.ts) (implemented)
 - [`BigDecimal`](src/BigDecimal.ts) (implemented)
-- `FieldComponent`
-- `DeveloperField`
-- `DeveloperDataIdMesg`
+- [`FieldComponent`](src/FieldComponent.ts) (implemented)
+- [`DeveloperField`](src/DeveloperField.ts) (implemented)
+- [`DeveloperDataIdMesg`](src/DeveloperDataIdMesg.ts) (implemented)
 - `FitBaseType`
 - `FitBaseUnit`
 
@@ -152,8 +152,8 @@ Each item below describes a self-contained Codex task. When all boxes are checke
    - [x] Create `FileDecoder` able to parse FIT headers and message records.
 3. **Field and Message Structure**
    - [x] Base `Field`, `SubField` and definition classes.
-   - [ ] Add `FieldComponent` logic.
-   - [ ] Add `DeveloperField` and `DeveloperFieldDefinition` with support for `DeveloperDataIdMesg`.
+   - [x] Add `FieldComponent` logic.
+   - [x] Add `DeveloperField` and `DeveloperFieldDefinition` with support for `DeveloperDataIdMesg`.
 4. **Message Classes**
    - [ ] Implement each message type listed above under _Message Types_.
    - [ ] Populate `Factory` with a `mesgs` array describing field layouts for every message.
@@ -189,6 +189,8 @@ graph TD
   InputStream -->|wraps| Readable
   Factory --> Mesg
   Mesg -->|extends| MessageTypes
+  Mesg --> DeveloperField
+  MesgDefinition --> DeveloperFieldDefinition
 ```
 
 ## How to Contribute
