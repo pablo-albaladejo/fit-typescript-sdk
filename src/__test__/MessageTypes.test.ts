@@ -1,4 +1,8 @@
 import Mesg from '../Mesg';
+import Profile, { ProfileType } from '../Profile';
+import FitBaseType from '../FitBaseType';
+import Factory from '../Factory';
+import MesgNum from '../MesgNum';
 
 const names = [
   "FileIdMesg",
@@ -115,4 +119,16 @@ describe('Message classes', () => {
       expect(m).toBeInstanceOf(Mesg);
     });
   }
+});
+
+test('Profile helpers', () => {
+  expect(Profile.getMesgNum('FILE_ID')).toBe(MesgNum.FILE_ID);
+  expect(Profile.getProfileVersion()).toBeGreaterThan(0);
+  expect(ProfileType.ENUM).toBeDefined();
+  expect(FitBaseType.UINT8).toBeDefined();
+});
+
+test('Factory uses mesg templates', () => {
+  const mesg = Factory.createMesg(MesgNum.FILE_ID);
+  expect(mesg).toBeInstanceOf(Mesg);
 });
