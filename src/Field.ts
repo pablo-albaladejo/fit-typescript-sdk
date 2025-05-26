@@ -1,6 +1,7 @@
 import FieldBase from './FieldBase';
 import Fit from './Fit';
 import SubField from './SubField';
+import { Type as ProfileType } from './Profile';
 
 class Field extends FieldBase {
   protected name: string;

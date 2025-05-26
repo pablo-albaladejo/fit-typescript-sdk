@@ -26,8 +26,8 @@ The repository currently lacks many classes required by the FIT specification. B
 - [`FieldComponent`](src/FieldComponent.ts) (implemented)
 - [`DeveloperField`](src/DeveloperField.ts) (implemented)
 - [`DeveloperDataIdMesg`](src/DeveloperDataIdMesg.ts) (implemented)
-- `FitBaseType`
-- `FitBaseUnit`
+- [`FitBaseType`](src/FitBaseType.ts) (implemented)
+- [`FitBaseUnit`](src/FitBaseUnit.ts) (implemented)
 
 ### Message Types
 
@@ -155,11 +155,11 @@ Each item below describes a self-contained Codex task. When all boxes are checke
    - [x] Add `FieldComponent` logic.
    - [x] Add `DeveloperField` and `DeveloperFieldDefinition` with support for `DeveloperDataIdMesg`.
 4. **Message Classes**
-   - [ ] Implement each message type listed above under _Message Types_.
-   - [ ] Populate `Factory` with a `mesgs` array describing field layouts for every message.
+   - [x] Implement each message type listed above under _Message Types_.
+   - [x] Populate `Factory` with a `mesgs` array describing field layouts for every message.
 5. **Profile Information**
-   - [ ] Add enums (`FitBaseType`, `FitBaseUnit`, `Profile.Type` or equivalent) following the FIT profile.
-   - [ ] Provide helpers to access profile version and message numbers.
+   - [x] Add enums (`FitBaseType`, `FitBaseUnit`, `Profile.Type` or equivalent) following the FIT profile.
+   - [x] Provide helpers to access profile version and message numbers.
 6. **Testing and Validation**
    - [ ] Unit tests for `FileEncoder` and `FileDecoder`.
    - [ ] Unit tests for every message class (creation, encoding, decoding).
@@ -191,6 +191,7 @@ graph TD
   Mesg -->|extends| MessageTypes
   Mesg --> DeveloperField
   MesgDefinition --> DeveloperFieldDefinition
+  Profile --> MesgNum
 ```
 
 ## How to Contribute

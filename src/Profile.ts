@@ -1,7 +1,8 @@
 import Fit from './Fit';
+import MesgNum from './MesgNum';
 
 
-enum Type {
+export enum Type {
   ENUM = 0,
   SINT8 = 1,
   UINT8 = 2,
@@ -202,6 +203,7 @@ enum Type {
 }
 
 class Profile {
+  static readonly Type = Type;
   static readonly SubFields = {
     // file_id message, product field
     FILE_ID_MESG_PRODUCT_FIELD_FAVERO_PRODUCT: 0,
@@ -530,5 +532,14 @@ class Profile {
         return Type.ENUM;
     }
   }
+
+  static getProfileVersion(): number {
+    return Fit.PROFILE_VERSION;
+  }
+
+  static getMesgNum(name: string): number {
+    return MesgNum.getValueFromString(name);
+  }
 }
 export default Profile;
+export { Type as ProfileType };

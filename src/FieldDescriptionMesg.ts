@@ -3,6 +3,7 @@ import Field from './Field';
 import Fit from './Fit';
 import Mesg from './Mesg';
 import MesgNum from './MesgNum';
+import { Type as ProfileType } from './Profile';
 
 class FieldDescriptionMesg extends Mesg {
   static DeveloperDataIndexFieldNum: number = 0;
