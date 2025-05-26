@@ -409,25 +409,25 @@ abstract class FieldBase {
     return value;
   }
 
-  public setValue(value: any): void {
+  public setValue(value: unknown): void {
     this.setValueInternal(0, value, null);
   }
 
-  public setValue(fieldArrayIndex: number, value: any): void {
+  public setValue(fieldArrayIndex: number, value: unknown): void {
     this.setValueInternal(fieldArrayIndex, value, null);
   }
 
-  public setValue(value: any, subFieldIndex: number): void {
+  public setValue(value: unknown, subFieldIndex: number): void {
     this.setValueInternal(0, value, this.getSubField(subFieldIndex));
   }
 
-  public setValue(value: any, subFieldName: string): void {
+  public setValue(value: unknown, subFieldName: string): void {
     this.setValueInternal(0, value, this.getSubField(subFieldName));
   }
 
   public setValue(
     fieldArrayIndex: number,
-    value: any,
+    value: unknown,
     subFieldIndex: number
   ): void {
     let subField: SubField | null = null;
@@ -447,7 +447,7 @@ abstract class FieldBase {
 
   public setValue(
     fieldArrayIndex: number,
-    value: any,
+    value: unknown,
     subFieldName: string
   ): void {
     this.setValueInternal(
@@ -457,7 +457,7 @@ abstract class FieldBase {
     );
   }
 
-  private rangeCorrect(type: number, value: any): any {
+  private rangeCorrect(type: number, value: unknown): unknown {
     if (
       Fit.baseTypeMinMap.get(type) === null ||
       Fit.baseTypeMaxMap.get(type) === null
@@ -467,9 +467,9 @@ abstract class FieldBase {
     }
 
     try {
-      const min = new BigDecimal(Fit.baseTypeMinMap.get(type).toString());
-      const max = new BigDecimal(Fit.baseTypeMaxMap.get(type).toString());
-      const val = new BigDecimal(value.toString());
+      const min = new BigDecimal(String(Fit.baseTypeMinMap.get(type)));
+      const max = new BigDecimal(String(Fit.baseTypeMaxMap.get(type)));
+      const val = new BigDecimal(String(value));
       if (val.compareTo(min) < 0 || val.compareTo(max) > 0) {
         return Fit.baseTypeInvalidMap.get(type);
       } else {
@@ -482,7 +482,7 @@ abstract class FieldBase {
 
   protected setValueInternal(
     fieldArrayIndex: number,
-    value: any,
+    value: unknown,
     subField: SubField | null
   ): void {
     while (fieldArrayIndex >= this.getNumValues()) this.addValue(new Object());
@@ -548,7 +548,7 @@ abstract class FieldBase {
           break;
 
         case Fit.BASE_TYPE_UINT64:
-        case Fit.BASE_TYPE_UINT64Z:
+        case Fit.BASE_TYPE_UINT64Z: {
           const val = Math.round(rawValue);
           const size =
             Fit.baseTypeSizes[this.getType() & Fit.BASE_TYPE_NUM_MASK];
@@ -561,6 +561,7 @@ abstract class FieldBase {
             new BigInteger(bytes)
           );
           break;
+        }
         case Fit.BASE_TYPE_BYTE:
           // Byte base types are only invalid if all bytes in an array are set to invalid.
           values[fieldArrayIndex] = Math.round(rawValue);
@@ -573,7 +574,7 @@ abstract class FieldBase {
     }
   }
 
-  private SetValueUnscaled(fieldArrayIndex: number, value: any): void {
+  private SetValueUnscaled(fieldArrayIndex: number, value: unknown): void {
     if (typeof value === 'string' && value === '') {
       switch (this.getType()) {
         case Fit.BASE_TYPE_ENUM:
@@ -613,7 +614,7 @@ abstract class FieldBase {
     }
   }
 
-  public setRawValue(fieldArrayIndex: number, rawValue: any): void {
+  public setRawValue(fieldArrayIndex: number, rawValue: unknown): void {
     while (fieldArrayIndex >= this.getNumValues()) {
       this.addValue(new Object());
     }
@@ -659,7 +660,7 @@ abstract class FieldBase {
           break;
 
         case Fit.BASE_TYPE_UINT64:
-        case Fit.BASE_TYPE_UINT64Z:
+        case Fit.BASE_TYPE_UINT64Z: {
           const val = Math.round(rawValue);
           const size =
             Fit.baseTypeSizes[this.getType() & Fit.BASE_TYPE_NUM_MASK];
@@ -668,6 +669,7 @@ abstract class FieldBase {
             bytes[i] = (val >>> (8 * i)) & 0xff;
           }
           break;
+        }
 
         default:
           break;
@@ -677,7 +679,7 @@ abstract class FieldBase {
     }
   }
 
-  public addValue(value: any): void {
+  public addValue(value: unknown): void {
     if (typeof value === 'number' && this.getType() === Fit.BASE_TYPE_STRING) {
       let string = this.getStringValueInternal(0, null);
       const number = value as number;
@@ -932,7 +934,7 @@ abstract class FieldBase {
     return this.getFloatValues(null);
   }
 
-  protected addValue(value: any): void {
+  protected addValue(value: unknown): void {
     this.values.push(value);
   }
 
@@ -1136,7 +1138,7 @@ abstract class FieldBase {
         const type: number = this.getType();
         const baseTypeSize: number =
           Fit.baseTypeSizes[type & Fit.BASE_TYPE_NUM_MASK];
-        const invalidValue: any = Fit.baseTypeInvalidMap[type];
+        const invalidValue = Fit.baseTypeInvalidMap[type] as unknown;
 
         while (bytesLeft > 0) {
           let value: any = null;
