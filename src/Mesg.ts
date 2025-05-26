@@ -63,7 +63,7 @@ class Mesg {
     return this.fields;
   }
 
-  write(out: fs.WriteStream, defn: MesgDefinition): void {
+  write(_out: fs.WriteStream, _defn: MesgDefinition): void {
     // Stub implementation for tests
   }
 }

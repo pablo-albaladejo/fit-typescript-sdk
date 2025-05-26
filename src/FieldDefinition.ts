@@ -1,18 +1,25 @@
+import * as fs from 'fs';
 import FieldDefinitionBase from './FieldDefinitionBase';
+
+interface FieldLike {
+  getNum?: () => number;
+  getSize?: () => number;
+  getType?: () => number;
+}
 
 class FieldDefinition extends FieldDefinitionBase {
   private num: number;
   private size: number;
   private type: number;
 
-  constructor(field: any) {
+  constructor(field: FieldLike) {
     super();
     this.num = field.getNum?.() ?? 0;
     this.size = field.getSize?.() ?? 0;
     this.type = field.getType?.() ?? 0;
   }
 
-  write(out: any): void {
+  write(out: fs.WriteStream): void {
     try {
       out.write(this.num);
       out.write(this.size);

@@ -67,11 +67,11 @@ class V1Validator implements ProtocolValidator {
 
 // Definición de la clase V2Validator
 class V2Validator implements ProtocolValidator {
-  validateMesgDefn(defn: MesgDefinition): boolean {
+  validateMesgDefn(_defn: MesgDefinition): boolean {
     return true;
   }
 
-  validateMesg(mesg: Mesg): boolean {
+  validateMesg(_mesg: Mesg): boolean {
     return true;
   }
 }

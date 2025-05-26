@@ -35,9 +35,9 @@ class MesgDefinition {
         this.fields.push(new FieldDefinition(field));
       }
 
-      for (const devField of mesg.getDeveloperFields()) {
+      mesg.getDeveloperFields().forEach(() => {
         this.developerFields.push(new DeveloperFieldDefinition());
-      }
+      });
     }
   }
 

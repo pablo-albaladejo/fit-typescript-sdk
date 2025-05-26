@@ -1,4 +1,4 @@
-export const hashCode = (obj: any): number => {
+export const hashCode = (obj: unknown): number => {
   let hash = 0;
   const str = JSON.stringify(obj);
 

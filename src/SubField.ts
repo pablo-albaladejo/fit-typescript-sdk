@@ -71,11 +71,11 @@ class SubField {
     return this.units;
   }
 
-  addMap(refFieldNum: number, refFieldValue: number) {
+  addMap(refFieldNum: number, refFieldValue: number): void {
     this.maps.push(new SubFieldMap(refFieldNum, refFieldValue));
   }
 
-  addComponent(component: FieldComponent) {
+  addComponent(component: FieldComponent): void {
     this.components.push(component);
   }
 

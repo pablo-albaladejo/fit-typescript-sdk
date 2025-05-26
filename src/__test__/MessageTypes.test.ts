@@ -109,6 +109,7 @@ const names = [
 describe('Message classes', () => {
   for (const name of names) {
     test(`${name} can be instantiated`, () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Cls = require(`../${name}`).default;
       const m = new Cls();
       expect(m).toBeInstanceOf(Mesg);
