@@ -13,8 +13,8 @@ import ProtocolVersion from './ProtocolVersion';
 export class FileEncoder implements MesgListener, MesgDefinitionListener {
   private file: fs.PathLike;
   private out: fs.WriteStream;
-  private rawWrite: any;
-  private crcOut: any;
+  private rawWrite: (chunk: Buffer | string) => boolean;
+  private crcOut: { write: (chunk: Buffer | string | number) => void };
   private crc16: CRC16;
   private lastMesgDefinition: MesgDefinition[] = new Array(Fit.MAX_LOCAL_MESGS);
   private version: ProtocolVersion;
@@ -35,11 +35,18 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
     try {
       this.out = fs.createWriteStream(this.file, { flags: 'a' });
       this.rawWrite = this.out.write.bind(this.out);
-      this.crcOut = { write: (chunk: any) => {
-        const buf = typeof chunk === "number" ? Buffer.from([chunk]) : Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
-        this.crc16.update(buf, 0, buf.length);
-        this.rawWrite(buf);
-      } };
+      this.crcOut = {
+        write: (chunk: Buffer | string | number): void => {
+          const buf =
+            typeof chunk === 'number'
+              ? Buffer.from([chunk])
+              : Buffer.isBuffer(chunk)
+              ? chunk
+              : Buffer.from(chunk);
+          this.crc16.update(buf, 0, buf.length);
+          this.rawWrite(buf);
+        },
+      };
       this.out.on('error', (err) => {
         throw new FitRuntimeException(err);
       });
@@ -51,7 +58,7 @@ export class FileEncoder implements MesgListener, MesgDefinitionListener {
     }
   }
 
-  open(file: fs.PathLike): void {}
+  open(_file: fs.PathLike): void {}
 
   writeFileHeader(): void {
     if (!this.file) {

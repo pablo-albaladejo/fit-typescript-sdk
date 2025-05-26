@@ -1141,7 +1141,7 @@ abstract class FieldBase {
         const invalidValue = Fit.baseTypeInvalidMap[type] as unknown;
 
         while (bytesLeft > 0) {
-          let value: any = null;
+          let value: number | BigInteger | null = null;
 
           switch (type) {
             case Fit.BASE_TYPE_ENUM:
@@ -1248,7 +1248,7 @@ abstract class FieldBase {
     }
   }
 
-  protected writeValue(outStream: OutputStream, value: any): void {
+  protected writeValue(outStream: OutputStream, value: unknown): void {
     try {
       const data = new DataOutputStream(outStream);
 
@@ -1316,9 +1316,7 @@ abstract class FieldBase {
           case Fit.BASE_TYPE_SINT8:
           case Fit.BASE_TYPE_BYTE: {
             if (typeof value === 'string') {
-              console.error(
-                `Field.write(): Field ${this.getFieldName()} value should not be a string value ${value}`
-              );
+              // Value should not be a string here but keep behaviour consistent
             }
             data.writeByte(Math.round(Number(value)));
             break;
@@ -1370,7 +1368,9 @@ abstract class FieldBase {
             break;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      // Ignore write errors in stubs
+    }
   }
 }
 export default FieldBase;

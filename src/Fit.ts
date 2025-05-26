@@ -129,9 +129,9 @@ class Fit {
   public static readonly BYTE_INVALID = 0xff;
   public static readonly BASE_TYPE_BYTE = 0x0d;
 
-  public static readonly SINT64_MAX = 0x7fffffffffffffff;
-  public static readonly SINT64_MIN = -0x8000000000000000;
-  public static readonly SINT64_INVALID = 0x7fffffffffffffff;
+  public static readonly SINT64_MAX = BigInt('0x7fffffffffffffff');
+  public static readonly SINT64_MIN = -BigInt('0x8000000000000000');
+  public static readonly SINT64_INVALID = BigInt('0x7fffffffffffffff');
   public static readonly BASE_TYPE_SINT64 = 0x8e;
 
   public static readonly UINT64_MAX = BigInt('0xFFFFFFFFFFFFFFFF');
@@ -169,7 +169,7 @@ class Fit {
   //    invalid value is returned instead.
   public static readonly ENABLE_LEGACY_BEHAVIOUR = true;
 
-  public static readonly baseTypeInvalidMap = new Map<number, any>([
+  public static readonly baseTypeInvalidMap = new Map<number, number | string | bigint>([
     [Fit.BASE_TYPE_ENUM, Fit.ENUM_INVALID],
     [Fit.BASE_TYPE_SINT8, Fit.SINT8_INVALID],
     [Fit.BASE_TYPE_UINT8, Fit.UINT8_INVALID],
@@ -189,7 +189,7 @@ class Fit {
     [Fit.BASE_TYPE_UINT64Z, Fit.UINT64Z_INVALID],
   ]);
 
-  public static readonly baseTypeMinMap = new Map<number, any>([
+  public static readonly baseTypeMinMap = new Map<number, number | string | bigint>([
     [Fit.BASE_TYPE_ENUM, Fit.ENUM_MIN],
     [Fit.BASE_TYPE_SINT8, Fit.SINT8_MIN],
     [Fit.BASE_TYPE_UINT8, Fit.UINT8_MIN],
@@ -208,7 +208,7 @@ class Fit {
     [Fit.BASE_TYPE_UINT64Z, Fit.UINT64Z_MIN],
   ]);
 
-  public static readonly baseTypeMaxMap = new Map<number, any>([
+  public static readonly baseTypeMaxMap = new Map<number, number | string | bigint>([
     [Fit.BASE_TYPE_ENUM, Fit.ENUM_MAX],
     [Fit.BASE_TYPE_SINT8, Fit.SINT8_MAX],
     [Fit.BASE_TYPE_UINT8, Fit.UINT8_MAX],

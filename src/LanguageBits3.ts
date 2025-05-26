@@ -29,11 +29,8 @@ class LanguageBits3 {
    * @return The name of this enum constant
    */
   public static getStringFromValue(value: number): string {
-    if (LanguageBits3.stringMap.has(value)) {
-      return LanguageBits3.stringMap.get(value)!;
-    }
-
-    return "";
+    const result = LanguageBits3.stringMap.get(value);
+    return result ?? "";
   }
 
   /**
