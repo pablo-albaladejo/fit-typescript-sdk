@@ -1,4 +1,9 @@
 import Mesg from '../Mesg';
+import { FileEncoder } from '../FileEncoder';
+import FileDecoder from '../FileDecoder';
+import ProtocolVersion from '../ProtocolVersion';
+import Fit from '../Fit';
+import * as fs from 'fs';
 import Profile, { ProfileType } from '../Profile';
 import FitBaseType from '../FitBaseType';
 import Factory from '../Factory';
@@ -112,11 +117,24 @@ const names = [
 
 describe('Message classes', () => {
   for (const name of names) {
-    test(`${name} can be instantiated`, () => {
+    test(`${name} creation and encode/decode`, () => {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const Cls = require(`../${name}`).default;
       const m = new Cls();
       expect(m).toBeInstanceOf(Mesg);
+
+      const path = `./tmp_${name}.fit`;
+      const enc = new FileEncoder(path, ProtocolVersion.V2_0);
+      enc.writeMesg(m);
+      enc.close();
+
+      const dec = new FileDecoder(path);
+      const header = dec.readHeader();
+      expect(header.dataType).toBe('.FIT');
+      expect(header.dataSize).toBe(
+        fs.statSync(path).size - Fit.FILE_HDR_SIZE - Fit.CRC_SIZE
+      );
+      fs.unlinkSync(path);
     });
   }
 });

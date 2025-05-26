@@ -1,0 +1,37 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const stream_1 = require("stream");
+const InputStream_1 = __importDefault(require("../InputStream"));
+const OutputStream_1 = __importDefault(require("../OutputStream"));
+const DataInputStream_1 = __importDefault(require("../DataInputStream"));
+const DataOutputStream_1 = __importDefault(require("../DataOutputStream"));
+const OutputStreamWriter_1 = __importDefault(require("../OutputStreamWriter"));
+test('Data stream roundtrip', () => {
+    const pass = new stream_1.PassThrough();
+    const chunks = [];
+    pass.on('data', (c) => chunks.push(c));
+    const out = new OutputStream_1.default(pass);
+    const dataOut = new DataOutputStream_1.default(out);
+    dataOut.writeByte(0x12);
+    dataOut.writeShort(0x1234);
+    dataOut.writeInt(0x12345678);
+    dataOut.writeFloat(1.25);
+    dataOut.writeDouble(2.5);
+    const writer = new OutputStreamWriter_1.default(out);
+    writer.write('OK');
+    writer.flush();
+    const buffer = Buffer.concat(chunks);
+    const input = new InputStream_1.default(buffer);
+    const dataIn = new DataInputStream_1.default(input);
+    expect(dataIn.readByte()).toBe(0x12);
+    expect(dataIn.readShort()).toBe(0x1234);
+    expect(dataIn.readInt()).toBe(0x12345678);
+    expect(dataIn.readFloat()).toBeCloseTo(1.25);
+    expect(dataIn.readDouble()).toBeCloseTo(2.5);
+    const strBytes = new Array(2);
+    dataIn.read(strBytes, 0, 2);
+    expect(Buffer.from(strBytes).toString()).toBe('OK');
+});
