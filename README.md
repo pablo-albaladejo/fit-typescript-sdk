@@ -161,14 +161,14 @@ Each item below describes a self-contained Codex task. When all boxes are checke
    - [x] Add enums (`FitBaseType`, `FitBaseUnit`, `Profile.Type` or equivalent) following the FIT profile.
    - [x] Provide helpers to access profile version and message numbers.
 6. **Testing and Validation**
-   - [ ] Unit tests for `FileEncoder` and `FileDecoder`.
-   - [ ] Unit tests for every message class (creation, encoding, decoding).
-   - [ ] Protocol validation via `ProtocolValidator` against all versions.
+   - [x] Unit tests for `FileEncoder` and `FileDecoder`.
+   - [x] Unit tests for every message class (creation, encoding, decoding).
+   - [x] Protocol validation via `ProtocolValidator` against all versions.
 7. **Continuous Integration**
-   - [ ] Set up GitHub Actions to run `npm test` and TypeScript build on each pull request.
-   - [ ] Enforce linting and code formatting.
+   - [x] Set up GitHub Actions to run `npm test` and TypeScript build on each pull request.
+   - [x] Enforce linting and code formatting.
 8. **Packaging**
-   - [ ] Generate `dist/` with compiled JavaScript and type declarations.
+   - [x] Generate `dist/` with compiled JavaScript and type declarations.
 
 - [ ] Publish the package to npm with semantic versioning.
 
