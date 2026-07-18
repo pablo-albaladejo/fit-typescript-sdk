@@ -1,5 +1,8 @@
 # fit-typescript-sdk
 
+> [!WARNING]
+> **Superseded by [Kaiord](https://github.com/pablo-albaladejo/kaiord).** This repo was an early, partial FIT implementation and is now archived. [`@kaiord/core`](https://www.npmjs.com/package/@kaiord/core) provides complete, round-trip-safe FIT encode/decode plus TCX / ZWO / KRD support, a CLI, and an MCP server. Use that instead.
+
 This project aims to provide a TypeScript implementation of the [Garmin FIT protocol](https://developer.garmin.com/fit/protocol/). The current code base only contains a handful of utility classes and a partial `FileEncoder`. Below is a roadmap describing every task required to reach a publishable SDK.
 
 ## Status Overview
